@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from './components/sidebar/Sidebar';
 import Topbar from './components/topbar/Topbar';
+import Channel from './components/channel/Channel';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         </Col>
         <Col md={9} className="col-md-9 p-0">
           <Topbar />
+          <Channel />
         </Col>
       </Row>
     </Container>
