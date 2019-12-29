@@ -5,7 +5,7 @@ export default class ChannelSettings extends Component {
   render() {
     return (
       <div>
-        <Card.Body>Hello! I'm the body</Card.Body>
+        <Card.Body>Hello!</Card.Body>
       </div>
     );
   }

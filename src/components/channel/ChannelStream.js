@@ -5,7 +5,7 @@ export default class ChannelStream extends Component {
   render() {
     return (
       <div>
-        <Card.Body>Hello! I'm the body</Card.Body>
+        <Card.Body>Hello!</Card.Body>
       </div>
     );
   }

@@ -11,11 +11,7 @@ export default class Sidebar extends Component {
         <SidebarItem>dupa1</SidebarItem>
         <SidebarItem>dupa1</SidebarItem>
         <SidebarItem>dupa1</SidebarItem>
-        <SidebarItem>dupa1</SidebarItem>
         <SidebarHeader>Channels</SidebarHeader>
-        <SidebarItem>dupa1</SidebarItem>
-        <SidebarItem>dupa1</SidebarItem>
-        <SidebarItem>dupa1</SidebarItem>
         <SidebarItem>dupa1</SidebarItem>
         <SidebarItem>dupa1</SidebarItem>
         <SidebarItem>dupa1</SidebarItem>
