@@ -4,7 +4,7 @@ import Sidebar from './components/sidebar/Sidebar';
 
 function App() {
   return (
-    <Container fluid>
+    <Container id="bootstrap-overrides" fluid>
       <Row style={{ height: '100vh' }}>
         <Col md={3} className="col-md-3 bg-dark text-white p-0">
           <Sidebar />

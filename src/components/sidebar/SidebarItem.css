@@ -1,0 +1,4 @@
+#bootstrap-overrides .item:hover {
+  background-color: #f7f7f7 !important;
+  color: #292b2c;
+}
