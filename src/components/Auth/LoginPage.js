@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Button, Container, Form } from 'react-bootstrap';
+import { testAction } from '../../actions/user';
 
-export default class LoginPage extends Component {
+class LoginPage extends Component {
   render() {
-    const { onLogin } = this.props;
+    const { onLogin, testData } = this.props;
 
     return (
       <Container className="col-md-4 mx-auto mt-5">
         <h2>Hello! :)</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-          luctus libero a orci lobortis, nec ultrices sapien tincidunt. Proin
-          eget finibus dolor. Sed dictum dapibus tellus, in auctor dui.
-        </p>
+        <p>{testData ? 'tak' : 'nie'}</p>
         <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Username</Form.Label>
@@ -29,3 +27,17 @@ export default class LoginPage extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    testData: state.user.testData,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    testAction: testData => dispatch(testAction(testData)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
