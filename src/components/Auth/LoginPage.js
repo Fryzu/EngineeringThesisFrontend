@@ -19,7 +19,7 @@ class LoginPage extends Component {
               This will be your name in the system.
             </Form.Text>
           </Form.Group>
-          <Button onClick={onLogin} variant="primary" type="submit">
+          <Button onClick={onLogin} variant="primary" type="button">
             Submit
           </Button>
         </Form>
