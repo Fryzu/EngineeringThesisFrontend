@@ -1,5 +1,5 @@
 export const userActionTypes = {
-  TEST_ACTION: 'TEST_ACTION',
+  TEST_ACTION: 'testAction',
   ADD_USER: 'addUser',
 };
 

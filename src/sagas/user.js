@@ -1,17 +1,33 @@
-import { takeEvery } from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
 import { userActionTypes } from '../actions/user';
+import { setChannelList, setUserList } from '../actions/server';
 
 function testSaga() {
   console.log('testSaga');
 }
 
-function addUserSaga(socket, action) {
+const socketConnection = (socket, eventName, params) => {
+  return new Promise(resolve => {
+    socket.emit(eventName, params, response => {
+      const { payload } = response;
+      resolve(payload);
+    });
+  });
+};
+
+function* addUserSaga(socket, action) {
   const { type, payload } = action;
 
   // console.warn(socket);
-  socket.emit(type, payload, response => {
-    console.warn(response);
-  });
+  const { channels, users } = yield call(
+    socketConnection,
+    socket,
+    type,
+    payload,
+  );
+
+  yield put(setChannelList(channels));
+  yield put(setUserList(users));
 }
 
 export default function* user(params) {
