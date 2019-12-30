@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import Sidebar from './components/sidebar/Sidebar';
 import Topbar from './components/topbar/Topbar';
 import Channel from './components/channel/Channel';
 import LoginPage from './components/Auth/LoginPage';
 
 class App extends Component {
-  state = {
-    loggedIn: false,
-  };
-
   render() {
-    const { loggedIn } = this.state;
+    const { userName } = this.props;
 
     return (
       <Container id="bootstrap-overrides" fluid>
-        {loggedIn ? (
+        {userName ? (
           <Row style={{ height: '100vh' }}>
             <Col
               md={3}
@@ -28,15 +25,17 @@ class App extends Component {
             </Col>
           </Row>
         ) : (
-          <LoginPage
-            onLogin={() => {
-              this.setState({ loggedIn: true });
-            }}
-          />
+          <LoginPage />
         )}
       </Container>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    userName: state.user.userName,
+  };
+}
+
+export default connect(mapStateToProps)(App);

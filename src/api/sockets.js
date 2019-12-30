@@ -12,7 +12,7 @@ const createSocketConnection = ({ dispatch }) => {
   });
 
   socket.on('test', payload => {
-    console.warn('Test event received', payload);
+    console.log('Test event received', payload);
     dispatch(testAction(payload));
   });
 

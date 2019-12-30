@@ -1,11 +1,20 @@
 import { takeEvery } from 'redux-saga/effects';
 import { userActionTypes } from '../actions/user';
 
-export function* userHandle() {
-  console.warn('dupa');
-  yield 'dupa';
+function testSaga() {
+  console.log('testSaga');
 }
 
-export default function* user() {
-  yield takeEvery(userActionTypes.TEST_ACTION, userHandle);
+function addUserSaga(socket, action) {
+  const { type, payload } = action;
+
+  // console.warn(socket);
+  socket.emit(type, payload, response => {
+    console.warn(response);
+  });
+}
+
+export default function* user(params) {
+  yield takeEvery(userActionTypes.TEST_ACTION, testSaga);
+  yield takeEvery(userActionTypes.ADD_USER, addUserSaga, params.socket);
 }

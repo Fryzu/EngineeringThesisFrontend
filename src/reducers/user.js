@@ -1,7 +1,8 @@
 import { userActionTypes } from '../actions/user';
 
 const initialState = {
-  testData: false,
+  testData: null,
+  userName: null,
 };
 
 export default function user(state = initialState, action) {
@@ -11,6 +12,13 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         testData,
+      };
+    }
+    case userActionTypes.ADD_USER: {
+      const { userName } = action.payload;
+      return {
+        ...state,
+        userName,
       };
     }
     default: {

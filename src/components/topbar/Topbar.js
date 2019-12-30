@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Nav } from 'react-bootstrap';
 import { FaSatelliteDish, FaUser } from 'react-icons/fa';
+import { connect } from 'react-redux';
 import TopbarButton from './TopbarButton';
 
-export default class Topbar extends Component {
+class Topbar extends Component {
   render() {
+    const { userName } = this.props;
+
     return (
       <Nav className="d-flex flex-row justify-content-between shadow p-3">
         <TopbarButton>
@@ -14,10 +17,18 @@ export default class Topbar extends Component {
         </TopbarButton>
         <TopbarButton>
           <small className="text-muted">user </small>
-          <b>bartek.fryz@gmail.com </b>
+          <b>{userName} </b>
           <FaUser />
         </TopbarButton>
       </Nav>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    userName: state.user.userName,
+  };
+}
+
+export default connect(mapStateToProps)(Topbar);
