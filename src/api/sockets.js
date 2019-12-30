@@ -8,6 +8,7 @@ const eventNames = {
   TEST: 'test',
   ADD_USER: 'addUser',
   SEND_TO_USER: 'sendToUser',
+  SEND_TO_CHANNEL: 'sendToChannel',
 };
 
 const createSocketConnection = ({ dispatch }) => {
@@ -31,6 +32,10 @@ const createSocketConnection = ({ dispatch }) => {
 
   socket.on(eventNames.SEND_TO_USER, payload => {
     alert('new message', payload);
+  });
+
+  socket.on(eventNames.SEND_TO_CHANNEL, payload => {
+    alert('new channel message', payload);
   });
 
   return socket;

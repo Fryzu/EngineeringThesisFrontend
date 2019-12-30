@@ -7,12 +7,19 @@ import ChannelStream from './ChannelStream';
 import ChannelChat from './ChannelChat';
 import Welcome from './Welcome';
 import { closeChannel } from '../../actions/user';
+import { sendToChannel } from '../../actions/server';
 
 class Channel extends Component {
   onCloseChannel = () => {
     const { closeChannelAction } = this.props;
 
     closeChannelAction();
+  };
+
+  onResetChannel = () => {
+    const { sendToChannelAction } = this.props;
+
+    sendToChannelAction('typeeee', 'messsaggeeee');
   };
 
   render() {
@@ -30,6 +37,7 @@ class Channel extends Component {
               <ChannelSettings
                 channelOwner={channelOwner}
                 onCloseChannel={this.onCloseChannel}
+                onResetChannel={this.onResetChannel}
               />
             </Accordion.Collapse>
           </Card>
@@ -76,6 +84,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     closeChannelAction: () => dispatch(closeChannel()),
+    sendToChannelAction: (messageType, message) =>
+      dispatch(sendToChannel(messageType, message)),
   };
 }
 

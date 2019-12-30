@@ -61,6 +61,12 @@ function* sendToUserSaga(socket, action) {
   yield call(socketConnection, socket, type, payload);
 }
 
+function* sendToChannelSaga(socket, action) {
+  const { type, payload } = action;
+
+  yield call(socketConnection, socket, type, payload);
+}
+
 export default function* user(params) {
   yield takeEvery(userActionTypes.TEST_ACTION, testSaga);
   yield takeEvery(userActionTypes.ADD_USER, addUserSaga, params.socket);
@@ -78,6 +84,11 @@ export default function* user(params) {
   yield takeEvery(
     serverActionTypes.SEND_TO_USER,
     sendToUserSaga,
+    params.socket,
+  );
+  yield takeEvery(
+    serverActionTypes.SEND_TO_CHANNEL,
+    sendToChannelSaga,
     params.socket,
   );
 }
