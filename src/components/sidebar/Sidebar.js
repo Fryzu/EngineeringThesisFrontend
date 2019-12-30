@@ -7,8 +7,7 @@ import SidebarHeader from './SidebarHeader';
 
 class Sidebar extends Component {
   render() {
-    const { channels, users } = this.props;
-
+    const { channels, users, userName } = this.props;
     return (
       <ListGroup className="bg-transparent">
         <SidebarHeader>Channels</SidebarHeader>
@@ -24,7 +23,11 @@ class Sidebar extends Component {
         <SidebarHeader>Users</SidebarHeader>
         {users.length > 0 ? (
           users.map(user => {
-            return <SidebarItem key={user}>{user}</SidebarItem>;
+            return (
+              <SidebarItem disabled={userName === user} key={user}>
+                {user}
+              </SidebarItem>
+            );
           })
         ) : (
           <SidebarItem>
@@ -40,6 +43,7 @@ function mapStateToProps(state) {
   return {
     channels: state.server.channels,
     users: state.server.users,
+    userName: state.user.userName,
   };
 }
 

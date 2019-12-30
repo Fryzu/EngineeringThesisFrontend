@@ -6,8 +6,15 @@ import ChannelSettings from './ChannelSettings';
 import ChannelStream from './ChannelStream';
 import ChannelChat from './ChannelChat';
 import Welcome from './Welcome';
+import { closeChannel } from '../../actions/user';
 
 class Channel extends Component {
+  onCloseChannel = () => {
+    const { closeChannelAction } = this.props;
+
+    closeChannelAction();
+  };
+
   render() {
     const { channelName } = this.props;
     if (channelName) {
@@ -20,7 +27,7 @@ class Channel extends Component {
               </Accordion.Toggle>
             </Card.Header>
             <Accordion.Collapse eventKey="0">
-              <ChannelSettings />
+              <ChannelSettings onCloseChannel={this.onCloseChannel} />
             </Accordion.Collapse>
           </Card>
           <Card>
@@ -62,4 +69,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Channel);
+function mapDispatchToProps(dispatch) {
+  return {
+    closeChannelAction: () => dispatch(closeChannel()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Channel);

@@ -18,7 +18,6 @@ const socketConnection = (socket, eventName, params) => {
 function* addUserSaga(socket, action) {
   const { type, payload } = action;
 
-  // console.warn(socket);
   const { channels, users } = yield call(
     socketConnection,
     socket,
@@ -30,7 +29,29 @@ function* addUserSaga(socket, action) {
   yield put(setUserList(users));
 }
 
+function* openChannelSaga(socket, action) {
+  const { type, payload } = action;
+
+  const { channels } = yield call(socketConnection, socket, type, payload);
+
+  yield put(setChannelList(channels));
+}
+
+function* closeChannelSaga(socket, action) {
+  const { type } = action;
+
+  const { channels } = yield call(socketConnection, socket, type, null);
+
+  yield put(setChannelList(channels));
+}
+
 export default function* user(params) {
   yield takeEvery(userActionTypes.TEST_ACTION, testSaga);
   yield takeEvery(userActionTypes.ADD_USER, addUserSaga, params.socket);
+  yield takeEvery(userActionTypes.OPEN_CHANNEL, openChannelSaga, params.socket);
+  yield takeEvery(
+    userActionTypes.CLOSE_CHANNEL,
+    closeChannelSaga,
+    params.socket,
+  );
 }

@@ -29,6 +29,12 @@ export default function user(state = initialState, action) {
         channelName,
       };
     }
+    case userActionTypes.CLOSE_CHANNEL: {
+      return {
+        ...state,
+        channelName: null,
+      };
+    }
     default: {
       return state;
     }

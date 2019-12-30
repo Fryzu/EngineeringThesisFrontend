@@ -3,19 +3,23 @@ import { ListGroupItem } from 'react-bootstrap';
 import './SidebarItem.css';
 
 export default function SidebarItem(props) {
-  const { children } = props;
+  const { children, disabled } = props;
+
+  const dynamicClass = disabled ? 'bg-primary item' : 'bg-transparent item';
+
+  const onClick = disabled ? null : () => alert('Clicked');
 
   return (
     <ListGroupItem
+      style={itemStyle}
       id="sidebar"
-      style={styles.item}
-      onClick={() => alert('Clicked')}
-      className="bg-transparent item">
+      onClick={onClick}
+      className={dynamicClass}>
       {children}
     </ListGroupItem>
   );
 }
 
-const styles = {
-  item: {},
+const itemStyle = {
+  cursor: 'pointer',
 };

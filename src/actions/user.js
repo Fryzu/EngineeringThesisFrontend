@@ -2,6 +2,7 @@ export const userActionTypes = {
   TEST_ACTION: 'testAction',
   ADD_USER: 'addUser',
   OPEN_CHANNEL: 'openChannel',
+  CLOSE_CHANNEL: 'closeChannel',
 };
 
 export const testAction = testData => ({
@@ -17,4 +18,8 @@ export const addUser = userName => ({
 export const openChannel = channelName => ({
   type: userActionTypes.OPEN_CHANNEL,
   payload: { channelName },
+});
+
+export const closeChannel = () => ({
+  type: userActionTypes.CLOSE_CHANNEL,
 });
