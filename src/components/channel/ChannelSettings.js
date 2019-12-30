@@ -3,10 +3,10 @@ import { Card, ButtonGroup, Button } from 'react-bootstrap';
 
 export default class ChannelSettings extends Component {
   render() {
-    const { onCloseChannel } = this.props;
+    const { onCloseChannel, channelOwner } = this.props;
 
-    return (
-      <Card.Body className="justify-content-between d-flex">
+    const controls = channelOwner ? (
+      <>
         <Button variant="primary">Start streaming</Button>
         <ButtonGroup aria-label="Basic example">
           {/* <Button variant="secondary">10 listeners</Button> */}
@@ -15,6 +15,14 @@ export default class ChannelSettings extends Component {
             Close channel
           </Button>
         </ButtonGroup>
+      </>
+    ) : (
+      <Button variant="warning">Leave channel</Button>
+    );
+
+    return (
+      <Card.Body className="justify-content-between d-flex">
+        {controls}
       </Card.Body>
     );
   }

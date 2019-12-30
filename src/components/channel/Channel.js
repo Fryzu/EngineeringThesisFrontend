@@ -16,7 +16,7 @@ class Channel extends Component {
   };
 
   render() {
-    const { channelName } = this.props;
+    const { channelName, channelOwner } = this.props;
     if (channelName) {
       return (
         <Accordion defaultActiveKey="0">
@@ -27,7 +27,10 @@ class Channel extends Component {
               </Accordion.Toggle>
             </Card.Header>
             <Accordion.Collapse eventKey="0">
-              <ChannelSettings onCloseChannel={this.onCloseChannel} />
+              <ChannelSettings
+                channelOwner={channelOwner}
+                onCloseChannel={this.onCloseChannel}
+              />
             </Accordion.Collapse>
           </Card>
           <Card>
@@ -66,6 +69,7 @@ function mapStateToProps(state) {
   return {
     userName: state.user.userName,
     channelName: state.user.channelName,
+    channelOwner: state.user.channelOwner,
   };
 }
 

@@ -1,6 +1,10 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { userActionTypes } from '../actions/user';
-import { setChannelList, setUserList } from '../actions/server';
+import {
+  setChannelList,
+  setUserList,
+  serverActionTypes,
+} from '../actions/server';
 
 function testSaga() {
   console.log('testSaga');
@@ -45,6 +49,18 @@ function* closeChannelSaga(socket, action) {
   yield put(setChannelList(channels));
 }
 
+function* addMeToChannelSaga(socket, action) {
+  const { type, payload } = action;
+
+  yield call(socketConnection, socket, type, payload);
+}
+
+function* sendToUserSaga(socket, action) {
+  const { type, payload } = action;
+
+  yield call(socketConnection, socket, type, payload);
+}
+
 export default function* user(params) {
   yield takeEvery(userActionTypes.TEST_ACTION, testSaga);
   yield takeEvery(userActionTypes.ADD_USER, addUserSaga, params.socket);
@@ -52,6 +68,16 @@ export default function* user(params) {
   yield takeEvery(
     userActionTypes.CLOSE_CHANNEL,
     closeChannelSaga,
+    params.socket,
+  );
+  yield takeEvery(
+    userActionTypes.ADD_ME_TO_CHANNEL,
+    addMeToChannelSaga,
+    params.socket,
+  );
+  yield takeEvery(
+    serverActionTypes.SEND_TO_USER,
+    sendToUserSaga,
     params.socket,
   );
 }

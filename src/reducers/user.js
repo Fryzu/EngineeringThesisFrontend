@@ -4,6 +4,7 @@ const initialState = {
   testData: null,
   userName: null,
   channelName: null,
+  channelOwner: false,
 };
 
 export default function user(state = initialState, action) {
@@ -27,12 +28,23 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         channelName,
+        channelOwner: true,
       };
     }
     case userActionTypes.CLOSE_CHANNEL: {
       return {
         ...state,
         channelName: null,
+        channelOwner: false,
+      };
+    }
+    case userActionTypes.ADD_ME_TO_CHANNEL: {
+      const { channelName } = action.payload;
+
+      return {
+        ...state,
+        channelName,
+        channelOwner: false,
       };
     }
     default: {

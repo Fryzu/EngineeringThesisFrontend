@@ -7,6 +7,7 @@ const SERVER_URL = 'http://localhost:5000';
 const eventNames = {
   TEST: 'test',
   ADD_USER: 'addUser',
+  SEND_TO_USER: 'sendToUser',
 };
 
 const createSocketConnection = ({ dispatch }) => {
@@ -17,15 +18,19 @@ const createSocketConnection = ({ dispatch }) => {
     transports: ['websocket'],
   });
 
+  socket.on(eventNames.TEST, payload => {
+    console.log('Test event received', payload);
+    dispatch(testAction(payload));
+  });
+
   socket.on(eventNames.ADD_USER, ({ payload }) => {
     const { channels, users } = payload;
     dispatch(setChannelList(channels));
     dispatch(setUserList(users));
   });
 
-  socket.on(eventNames.TEST, payload => {
-    console.log('Test event received', payload);
-    dispatch(testAction(payload));
+  socket.on(eventNames.SEND_TO_USER, payload => {
+    alert('new message', payload);
   });
 
   return socket;

@@ -17,7 +17,7 @@ class Topbar extends Component {
         {channelName && (
           <TopbarButton>
             <small className="text-muted">channel </small>
-            <b>{channelName}</b>
+            <b>{channelName} </b>
             <FaSatelliteDish />
           </TopbarButton>
         )}
