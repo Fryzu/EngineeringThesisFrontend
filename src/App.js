@@ -19,7 +19,7 @@ class App extends Component {
               className="overflow-auto mh-100 col-md-3 bg-dark text-white p-0">
               <Sidebar />
             </Col>
-            <Col md={9} className="col-md-9 p-0">
+            <Col md={9} className="overflow-auto mh-100 col-md-9 p-0">
               <Topbar />
               <Channel />
             </Col>

@@ -1,6 +1,7 @@
 export const userActionTypes = {
   TEST_ACTION: 'testAction',
   ADD_USER: 'addUser',
+  OPEN_CHANNEL: 'openChannel',
 };
 
 export const testAction = testData => ({
@@ -11,4 +12,9 @@ export const testAction = testData => ({
 export const addUser = userName => ({
   type: userActionTypes.ADD_USER,
   payload: { userName },
+});
+
+export const openChannel = channelName => ({
+  type: userActionTypes.OPEN_CHANNEL,
+  payload: { channelName },
 });

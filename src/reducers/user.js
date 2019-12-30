@@ -3,6 +3,7 @@ import { userActionTypes } from '../actions/user';
 const initialState = {
   testData: null,
   userName: null,
+  channelName: null,
 };
 
 export default function user(state = initialState, action) {
@@ -19,6 +20,13 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         userName,
+      };
+    }
+    case userActionTypes.OPEN_CHANNEL: {
+      const { channelName } = action.payload;
+      return {
+        ...state,
+        channelName,
       };
     }
     default: {

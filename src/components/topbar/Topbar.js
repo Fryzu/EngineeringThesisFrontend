@@ -5,16 +5,22 @@ import { connect } from 'react-redux';
 import TopbarButton from './TopbarButton';
 
 class Topbar extends Component {
+  onSubmit = () => {
+    alert('submit');
+  };
+
   render() {
-    const { userName } = this.props;
+    const { userName, channelName } = this.props;
 
     return (
       <Nav className="d-flex flex-row justify-content-between shadow p-3">
-        <TopbarButton>
-          <small className="text-muted">channel </small>
-          <b>Dupaa</b>
-          <FaSatelliteDish />
-        </TopbarButton>
+        {channelName && (
+          <TopbarButton>
+            <small className="text-muted">channel </small>
+            <b>{channelName}</b>
+            <FaSatelliteDish />
+          </TopbarButton>
+        )}
         <TopbarButton>
           <small className="text-muted">user </small>
           <b>{userName} </b>
@@ -28,6 +34,7 @@ class Topbar extends Component {
 function mapStateToProps(state) {
   return {
     userName: state.user.userName,
+    channelName: state.user.channelName,
   };
 }
 
