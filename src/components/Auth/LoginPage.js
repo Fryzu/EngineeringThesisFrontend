@@ -10,13 +10,13 @@ class LoginPage extends Component {
     return (
       <Container className="col-md-4 mx-auto mt-5">
         <h2>Hello! :)</h2>
-        <p>{testData ? 'tak' : 'nie'}</p>
+        <p>{testData}</p>
         <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control type="email" placeholder="Enter your username" />
             <Form.Text className="text-muted">
-              This will be your name in the system.
+              It will be your name in the system.
             </Form.Text>
           </Form.Group>
           <Button onClick={onLogin} variant="primary" type="button">

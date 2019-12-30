@@ -3,6 +3,7 @@ import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import sagas from './sagas';
+import createSocketConnection from './api/sockets';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -11,4 +12,6 @@ export const store = createStore(
   applyMiddleware(sagaMiddleware, logger),
 );
 
-sagaMiddleware.run(sagas);
+const socket = createSocketConnection(store);
+
+sagaMiddleware.run(sagas, { socket });
