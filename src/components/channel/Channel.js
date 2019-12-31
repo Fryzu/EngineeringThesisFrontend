@@ -6,9 +6,16 @@ import ChannelStream from './ChannelStream';
 import ChannelChat from './ChannelChat';
 import Welcome from './Welcome';
 import { closeChannel } from '../../actions/user';
-import { sendToChannel, getChannelListeners } from '../../actions/server';
+import {
+  sendToChannel,
+  getChannelListeners,
+  sendToUser,
+} from '../../actions/server';
+import WebRTCController from '../../api/webRTCUtils';
 
 class Channel extends Component {
+  state = {};
+
   onCloseChannel = () => {
     const { closeChannelAction } = this.props;
 
@@ -22,9 +29,16 @@ class Channel extends Component {
   };
 
   setupWebRTCConnection = () => {
-    const { channelName, getChannelListenersAction } = this.props;
+    const { listeners, sendToUserAction, sendToChannelAction } = this.props;
 
-    getChannelListenersAction(channelName);
+    this.webRTCController = new WebRTCController(
+      listeners,
+      sendToUserAction,
+      sendToChannelAction,
+      this.refs.previewRef,
+    );
+
+    // this.webRTCController = new WebRTCController(listeners);
     // console.warn(this.previewRef);
     // this.refs.previewRef.play();
   };
@@ -43,9 +57,7 @@ class Channel extends Component {
           />
           <ChannelStream>
             <div className="flexChild p-3" id="camera-container">
-              <video ref="previewRef" width="100%">
-                <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
-              </video>
+              <video autoPlay ref="previewRef" width="100%" />
             </div>
           </ChannelStream>
           <ChannelChat />
@@ -73,6 +85,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     closeChannelAction: () => dispatch(closeChannel()),
+    sendToUserAction: (userName, messageType, message) =>
+      dispatch(sendToUser(userName, messageType, message)),
     sendToChannelAction: (messageType, message) =>
       dispatch(sendToChannel(messageType, message)),
     getChannelListenersAction: channelName =>
