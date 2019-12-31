@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Accordion, Card, Button, Container } from 'react-bootstrap';
-import { FaCogs, FaPlayCircle, FaComments } from 'react-icons/fa';
+import { Accordion, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import ChannelSettings from './ChannelSettings';
 import ChannelStream from './ChannelStream';
@@ -22,45 +21,21 @@ class Channel extends Component {
     sendToChannelAction('typeeee', 'messsaggeeee');
   };
 
+  setupWebRTCConnection = () => {};
+
   render() {
     const { channelName, channelOwner } = this.props;
     if (channelName) {
       return (
         <Accordion defaultActiveKey="0">
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                <FaCogs /> Settings
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <ChannelSettings
-                channelOwner={channelOwner}
-                onCloseChannel={this.onCloseChannel}
-                onResetChannel={this.onResetChannel}
-              />
-            </Accordion.Collapse>
-          </Card>
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                <FaPlayCircle /> Stream
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="1">
-              <ChannelStream />
-            </Accordion.Collapse>
-          </Card>
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                <FaComments /> Chat
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="2">
-              <ChannelChat />
-            </Accordion.Collapse>
-          </Card>
+          <ChannelSettings
+            channelOwner={channelOwner}
+            onCloseChannel={this.onCloseChannel}
+            onResetChannel={this.onResetChannel}
+            onStartStreaming={this.setupWebRTCConnection}
+          />
+          <ChannelStream />
+          <ChannelChat />
         </Accordion>
       );
     } else {

@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import { Card, ButtonGroup, Button } from 'react-bootstrap';
+import { FaCogs } from 'react-icons/fa';
+import { Card, ButtonGroup, Button, Accordion } from 'react-bootstrap';
 
 export default class ChannelSettings extends Component {
   render() {
-    const { onCloseChannel, onResetChannel, channelOwner } = this.props;
+    const {
+      onCloseChannel,
+      onResetChannel,
+      channelOwner,
+      onStartStreaming,
+    } = this.props;
 
     const controls = channelOwner ? (
       <>
-        <Button variant="primary">Start streaming</Button>
+        <Button onClick={onStartStreaming} variant="primary">
+          Start streaming
+        </Button>
         <ButtonGroup aria-label="Basic example">
           {/* <Button variant="secondary">10 listeners</Button> */}
           <Button onClick={onResetChannel} variant="danger">
@@ -25,9 +33,18 @@ export default class ChannelSettings extends Component {
     );
 
     return (
-      <Card.Body className="justify-content-between d-flex">
-        {controls}
-      </Card.Body>
+      <Card>
+        <Card.Header>
+          <Accordion.Toggle as={Button} variant="link" eventKey="0">
+            <FaCogs /> Settings
+          </Accordion.Toggle>
+        </Card.Header>
+        <Accordion.Collapse eventKey="0">
+          <Card.Body className="justify-content-between d-flex">
+            {controls}
+          </Card.Body>
+        </Accordion.Collapse>
+      </Card>
     );
   }
 }
