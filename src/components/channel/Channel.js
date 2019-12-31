@@ -21,7 +21,10 @@ class Channel extends Component {
     sendToChannelAction('typeeee', 'messsaggeeee');
   };
 
-  setupWebRTCConnection = () => {};
+  setupWebRTCConnection = () => {
+    // console.warn(this.previewRef);
+    this.refs.previewRef.play();
+  };
 
   render() {
     const { channelName, channelOwner } = this.props;
@@ -34,7 +37,13 @@ class Channel extends Component {
             onResetChannel={this.onResetChannel}
             onStartStreaming={this.setupWebRTCConnection}
           />
-          <ChannelStream />
+          <ChannelStream>
+            <div className="flexChild p-3" id="camera-container">
+              <video ref="previewRef" width="100%">
+                <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+              </video>
+            </div>
+          </ChannelStream>
           <ChannelChat />
         </Accordion>
       );

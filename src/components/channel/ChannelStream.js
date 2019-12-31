@@ -4,6 +4,8 @@ import { Card, Accordion, Button } from 'react-bootstrap';
 
 export default class ChannelStream extends Component {
   render() {
+    const { children } = this.props;
+
     return (
       <Card>
         <Card.Header>
@@ -11,13 +13,7 @@ export default class ChannelStream extends Component {
             <FaPlayCircle /> Stream
           </Accordion.Toggle>
         </Card.Header>
-        <Accordion.Collapse eventKey="1">
-          <div className="flexChild p-3" id="camera-container">
-            <video width="100%" autoPlay controls>
-              <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
-            </video>
-          </div>
-        </Accordion.Collapse>
+        <Accordion.Collapse eventKey="1">{children}</Accordion.Collapse>
       </Card>
     );
   }
