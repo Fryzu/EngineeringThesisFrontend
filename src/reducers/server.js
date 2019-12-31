@@ -3,6 +3,7 @@ import { serverActionTypes } from '../actions/server';
 const initialState = {
   channels: [],
   users: [],
+  listeners: [],
 };
 
 export default function user(state = initialState, action) {
@@ -19,6 +20,13 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         users,
+      };
+    }
+    case serverActionTypes.SET_CHANNEL_LISTENERS: {
+      const { listeners } = action.payload;
+      return {
+        ...state,
+        listeners,
       };
     }
     default: {

@@ -6,7 +6,7 @@ import ChannelStream from './ChannelStream';
 import ChannelChat from './ChannelChat';
 import Welcome from './Welcome';
 import { closeChannel } from '../../actions/user';
-import { sendToChannel } from '../../actions/server';
+import { sendToChannel, getChannelListeners } from '../../actions/server';
 
 class Channel extends Component {
   onCloseChannel = () => {
@@ -22,16 +22,20 @@ class Channel extends Component {
   };
 
   setupWebRTCConnection = () => {
+    const { channelName, getChannelListenersAction } = this.props;
+
+    getChannelListenersAction(channelName);
     // console.warn(this.previewRef);
-    this.refs.previewRef.play();
+    // this.refs.previewRef.play();
   };
 
   render() {
-    const { channelName, channelOwner } = this.props;
+    const { channelName, channelOwner, listeners } = this.props;
     if (channelName) {
       return (
         <Accordion defaultActiveKey="0">
           <ChannelSettings
+            listeners={listeners}
             channelOwner={channelOwner}
             onCloseChannel={this.onCloseChannel}
             onResetChannel={this.onResetChannel}
@@ -62,6 +66,7 @@ function mapStateToProps(state) {
     userName: state.user.userName,
     channelName: state.user.channelName,
     channelOwner: state.user.channelOwner,
+    listeners: state.server.listeners,
   };
 }
 
@@ -70,6 +75,8 @@ function mapDispatchToProps(dispatch) {
     closeChannelAction: () => dispatch(closeChannel()),
     sendToChannelAction: (messageType, message) =>
       dispatch(sendToChannel(messageType, message)),
+    getChannelListenersAction: channelName =>
+      dispatch(getChannelListeners(channelName)),
   };
 }
 

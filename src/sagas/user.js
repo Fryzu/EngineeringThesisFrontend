@@ -4,6 +4,7 @@ import {
   setChannelList,
   setUserList,
   serverActionTypes,
+  setChannelListeners,
 } from '../actions/server';
 
 function testSaga() {
@@ -67,6 +68,14 @@ function* sendToChannelSaga(socket, action) {
   yield call(socketConnection, socket, type, payload);
 }
 
+function* getChannelListenersSaga(socket, action) {
+  const { type, payload } = action;
+
+  const { listeners } = yield call(socketConnection, socket, type, payload);
+
+  yield put(setChannelListeners(listeners));
+}
+
 export default function* user(params) {
   yield takeEvery(userActionTypes.TEST_ACTION, testSaga);
   yield takeEvery(userActionTypes.ADD_USER, addUserSaga, params.socket);
@@ -89,6 +98,11 @@ export default function* user(params) {
   yield takeEvery(
     serverActionTypes.SEND_TO_CHANNEL,
     sendToChannelSaga,
+    params.socket,
+  );
+  yield takeEvery(
+    serverActionTypes.GET_CHANNEL_LISTENERS,
+    getChannelListenersSaga,
     params.socket,
   );
 }

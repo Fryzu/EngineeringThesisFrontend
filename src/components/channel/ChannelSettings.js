@@ -9,12 +9,13 @@ export default class ChannelSettings extends Component {
       onResetChannel,
       channelOwner,
       onStartStreaming,
+      listeners,
     } = this.props;
 
     const controls = channelOwner ? (
       <>
         <Button onClick={onStartStreaming} variant="primary">
-          Start streaming
+          Start streaming {listeners.length}
         </Button>
         <ButtonGroup aria-label="Basic example">
           {/* <Button variant="secondary">10 listeners</Button> */}
