@@ -1,6 +1,10 @@
 import io from 'socket.io-client';
 import { testAction } from '../actions/user';
-import { setChannelList, setUserList } from '../actions/server';
+import {
+  setChannelList,
+  setUserList,
+  setChannelListeners,
+} from '../actions/server';
 
 const SERVER_URL = 'http://localhost:5000';
 
@@ -9,9 +13,10 @@ const eventNames = {
   ADD_USER: 'addUser',
   SEND_TO_USER: 'sendToUser',
   SEND_TO_CHANNEL: 'sendToChannel',
+  ADD_USER_TO_CHANNEL: 'addUserToChannel',
 };
 
-const createSocketConnection = ({ dispatch }) => {
+const createSocketConnection = ({ dispatch, getState }) => {
   const socket = io.connect(SERVER_URL, {
     'reconnection delay': 0,
     'reopen delay': 0,
@@ -36,6 +41,13 @@ const createSocketConnection = ({ dispatch }) => {
 
   socket.on(eventNames.SEND_TO_CHANNEL, payload => {
     alert('new channel message', payload);
+  });
+
+  socket.on(eventNames.ADD_USER_TO_CHANNEL, ({ payload }) => {
+    const { userName } = payload;
+    const { listeners } = getState().server;
+
+    dispatch(setChannelListeners([...listeners, userName]));
   });
 
   return socket;
