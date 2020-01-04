@@ -33,7 +33,7 @@ class LoginPage extends Component {
 
     return (
       <Container className="col-md-4 mx-auto mt-5">
-        <h2>Hello! :)</h2>
+        <h2>Register new user</h2>
         <p>{testData}</p>
         <Form>
           <Form.Group controlId="formBasicEmail">

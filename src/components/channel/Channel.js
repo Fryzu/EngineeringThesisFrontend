@@ -11,7 +11,7 @@ import {
   getChannelListeners,
   sendToUser,
 } from '../../actions/server';
-import WebRTCController from '../../api/webRTCUtils';
+import WebRTCController from '../../api/WebRTCController';
 
 class Channel extends Component {
   state = {};

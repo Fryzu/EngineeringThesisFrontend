@@ -4,7 +4,7 @@ export const serverActionTypes = {
   SEND_TO_USER: 'sendToUser',
   SEND_TO_CHANNEL: 'sendToChannel',
   GET_CHANNEL_LISTENERS: 'getChannelListeners',
-  SET_CHANNEL_LISTENERS: 'settChannelListeners',
+  SET_CHANNEL_LISTENERS: 'setChannelListeners',
 };
 
 export const setChannelList = channels => ({
