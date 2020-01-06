@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## System for WebRTC based video broadcasting
+# System for WebRTC based video broadcasting
 
 Please `clone` this repository add install dependencies and run the dev server using commands:
 
