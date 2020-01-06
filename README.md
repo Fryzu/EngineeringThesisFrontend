@@ -1,5 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## System for WebRTC based video broadcasting
+
+Please `clone` this repository add install dependencies and run the dev server using commands:
+
+```
+yarn
+yarn start
+```
+
+Remember that you need signaling server running to use this app. <br /> See the [signaling server repo](https://github.com/Fryzu/EngineeringThesisBackend)
+
 ## Available Scripts
 
 In the project directory, you can run:
