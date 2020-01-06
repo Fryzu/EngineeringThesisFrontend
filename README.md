@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # System for WebRTC based video broadcasting
 
-Please `clone` this repository add install dependencies and run the dev server using commands:
+Please `clone` this repository, install dependencies and run the dev server using commands:
 
 ```
 yarn
