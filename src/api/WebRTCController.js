@@ -13,17 +13,21 @@ const log = message => {
 };
 
 export default class WebRTCController extends Component {
+  /** If the WebRTCController is a sender then the startSteam should be executed */
   constructor(props) {
     super(props);
 
-    const { listeners, sendToUser, sendToChannel, videoRef } = this.props;
+    const { channelOwner, listeners, sendToUser, sendToChannel } = this.props;
 
     log(`Setting up WebRTC controller with ${listeners}`);
 
     this.actions = { sendToUser, sendToChannel };
 
-    this.connectWithAllListeners(listeners);
-    this.getUserMediaStream(videoRef);
+    if (channelOwner) {
+      this.connectWithAllListeners(listeners);
+    } else {
+      this.connectWithChannelAuthor();
+    }
   }
 
   /** Creates connections for all listeners */
@@ -33,6 +37,10 @@ export default class WebRTCController extends Component {
       const connection = new Connection(listener, this.actions.sendToUser);
       this.connections.push(connection);
     });
+  };
+
+  connectWithChannelAuthor = () => {
+    console.log('connect with author not implemented');
   };
 
   /** Gets the media stream from user device and connects it to video preview */

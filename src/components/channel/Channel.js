@@ -14,9 +14,10 @@ import {
 import WebRTCController from '../../api/WebRTCController';
 
 class Channel extends Component {
-  state = {
-    streaming: false,
-  };
+  constructor(props) {
+    super(props);
+    this.webRTCController = React.createRef();
+  }
 
   onCloseChannel = () => {
     const { closeChannelAction } = this.props;
@@ -31,11 +32,12 @@ class Channel extends Component {
   };
 
   startStreaming = () => {
-    this.setState({ streaming: true });
+    const { previewRef } = this.refs;
+
+    this.webRTCController.current.getUserMediaStream(previewRef);
   };
 
   render() {
-    const { streaming } = this.state;
     const {
       channelName,
       channelOwner,
@@ -47,14 +49,13 @@ class Channel extends Component {
     if (channelName) {
       return (
         <Accordion defaultActiveKey="0">
-          {streaming && (
-            <WebRTCController
-              listeners={listeners}
-              sendToUser={sendToUserAction}
-              sendToChannel={sendToChannelAction}
-              videoRef={this.refs.previewRef}
-            />
-          )}
+          <WebRTCController
+            channelOwner={channelOwner}
+            listeners={listeners}
+            sendToUser={sendToUserAction}
+            sendToChannel={sendToChannelAction}
+            ref={this.webRTCController}
+          />
           <ChannelSettings
             listeners={listeners}
             channelOwner={channelOwner}
