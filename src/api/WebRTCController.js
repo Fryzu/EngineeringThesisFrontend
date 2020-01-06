@@ -64,11 +64,7 @@ export default class WebRTCController extends Component {
         return !prevProps.listeners.includes(listener);
       });
       newListeners.forEach(listener => {
-        const connection = new Connection(
-          userName,
-          listener,
-          this.actions.sendToUser,
-        );
+        const connection = new Connection(listener, this.actions.sendToUser);
         this.connections.push(connection);
       });
     }
@@ -104,28 +100,16 @@ export default class WebRTCController extends Component {
 
   /** Creates connections for all listeners */
   connectWithAllListeners = listeners => {
-    const userName = this.props;
-
     this.connections = [];
     listeners.forEach(listener => {
-      const connection = new Connection(
-        userName,
-        listener,
-        this.actions.sendToUser,
-      );
+      const connection = new Connection(listener, this.actions.sendToUser);
       this.connections.push(connection);
     });
   };
 
   connectWithChannelAuthor = channelOwner => {
-    const userName = this.props;
-
     this.connections = [];
-    const connection = new Connection(
-      userName,
-      channelOwner,
-      this.actions.sendToUser,
-    );
+    const connection = new Connection(channelOwner, this.actions.sendToUser);
 
     connection.peerConnection.ontrack = event => {
       const { videoRef } = this.props;
