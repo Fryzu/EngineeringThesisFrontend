@@ -14,7 +14,9 @@ import {
 import WebRTCController from '../../api/WebRTCController';
 
 class Channel extends Component {
-  state = {};
+  state = {
+    streaming: false,
+  };
 
   onCloseChannel = () => {
     const { closeChannelAction } = this.props;
@@ -28,32 +30,37 @@ class Channel extends Component {
     sendToChannelAction('typeeee', 'messsaggeeee');
   };
 
-  setupWebRTCConnection = () => {
-    const { listeners, sendToUserAction, sendToChannelAction } = this.props;
-
-    this.webRTCController = new WebRTCController(
-      listeners,
-      sendToUserAction,
-      sendToChannelAction,
-      this.refs.previewRef,
-    );
-
-    // this.webRTCController = new WebRTCController(listeners);
-    // console.warn(this.previewRef);
-    // this.refs.previewRef.play();
+  startStreaming = () => {
+    this.setState({ streaming: true });
   };
 
   render() {
-    const { channelName, channelOwner, listeners } = this.props;
+    const { streaming } = this.state;
+    const {
+      channelName,
+      channelOwner,
+      listeners,
+      sendToUserAction,
+      sendToChannelAction,
+    } = this.props;
+
     if (channelName) {
       return (
         <Accordion defaultActiveKey="0">
+          {streaming && (
+            <WebRTCController
+              listeners={listeners}
+              sendToUser={sendToUserAction}
+              sendToChannel={sendToChannelAction}
+              videoRef={this.refs.previewRef}
+            />
+          )}
           <ChannelSettings
             listeners={listeners}
             channelOwner={channelOwner}
             onCloseChannel={this.onCloseChannel}
             onResetChannel={this.onResetChannel}
-            onStartStreaming={this.setupWebRTCConnection}
+            onStartStreaming={this.startStreaming}
           />
           <ChannelStream>
             <div className="flexChild p-3" id="camera-container">

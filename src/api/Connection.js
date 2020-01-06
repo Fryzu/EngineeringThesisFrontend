@@ -4,7 +4,7 @@ const log = message => {
   DEBUG && console.log('WebRTC:', message);
 };
 
-const messageTypes = {
+export const messageTypes = {
   NEW_ICE_CANDIDATE: 'newICECandidate',
   SDP_OFFER: 'sdpOffer',
 };

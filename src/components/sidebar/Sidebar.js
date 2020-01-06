@@ -9,7 +9,6 @@ import { addMeToChannel } from '../../actions/user';
 class Sidebar extends Component {
   channelOnClick = channelName => {
     const { addMeToChannelAction, channelOwner } = this.props;
-    console.warn('dupa', channelOwner);
 
     if (channelOwner) {
       alert('To join channel, you must first currently open channel.');

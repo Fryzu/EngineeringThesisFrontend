@@ -4,6 +4,8 @@ export const userActionTypes = {
   OPEN_CHANNEL: 'openChannel',
   CLOSE_CHANNEL: 'closeChannel',
   ADD_ME_TO_CHANNEL: 'addMeToChannel',
+  SET_REMOTE_SDP: 'setRemoteSDP',
+  ADD_ICE_CANDIDATE: 'addICECandidate',
 };
 
 export const testAction = testData => ({
@@ -28,4 +30,14 @@ export const closeChannel = () => ({
 export const addMeToChannel = channelName => ({
   type: userActionTypes.ADD_ME_TO_CHANNEL,
   payload: { channelName },
+});
+
+export const setRemoteSDP = sdpOffer => ({
+  type: userActionTypes.SET_REMOTE_SDP,
+  payload: { sdpOffer },
+});
+
+export const addICECandidate = candidate => ({
+  type: userActionTypes.ADD_ICE_CANDIDATE,
+  payload: { candidate },
 });

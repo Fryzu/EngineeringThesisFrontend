@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import Connection from './Connection';
 
 const mediaConstraints = {
@@ -11,11 +12,15 @@ const log = message => {
   DEBUG && console.log('WebRTC:', message);
 };
 
-export default class WebRTCController {
-  constructor(listeners, sendToUser, sentToChannel, videoRef) {
+export default class WebRTCController extends Component {
+  constructor(props) {
+    super(props);
+
+    const { listeners, sendToUser, sendToChannel, videoRef } = this.props;
+
     log(`Setting up WebRTC controller with ${listeners}`);
 
-    this.actions = { sendToUser, sentToChannel };
+    this.actions = { sendToUser, sendToChannel };
 
     this.connectWithAllListeners(listeners);
     this.getUserMediaStream(videoRef);
@@ -52,4 +57,8 @@ export default class WebRTCController {
       connection.addTrack(track, localStream);
     });
   };
+
+  render() {
+    return <></>;
+  }
 }

@@ -1,10 +1,11 @@
 import io from 'socket.io-client';
-import { testAction } from '../actions/user';
+import { testAction, setRemoteSDP, addICECandidate } from '../actions/user';
 import {
   setChannelList,
   setUserList,
   setChannelListeners,
 } from '../actions/server';
+import { messageTypes } from './Connection';
 
 const SERVER_URL = 'http://localhost:5000';
 
@@ -36,7 +37,22 @@ const createSocketConnection = ({ dispatch, getState }) => {
   });
 
   socket.on(eventNames.SEND_TO_USER, payload => {
-    alert('new message', payload);
+    const { messageType, message } = payload;
+
+    switch (messageType) {
+      case messageTypes.NEW_ICE_CANDIDATE: {
+        const { candidate } = message;
+        dispatch(addICECandidate(candidate));
+        break;
+      }
+      case messageTypes.SDP_OFFER: {
+        const { sdp } = message;
+        dispatch(setRemoteSDP(sdp));
+        break;
+      }
+      default:
+        console.warn('Received unknown websocket message type');
+    }
   });
 
   socket.on(eventNames.SEND_TO_CHANNEL, payload => {

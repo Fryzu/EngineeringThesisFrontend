@@ -5,6 +5,8 @@ const initialState = {
   userName: null,
   channelName: null,
   channelOwner: false,
+  remoteSDP: null,
+  ICECandidates: [],
 };
 
 export default function user(state = initialState, action) {
@@ -45,6 +47,23 @@ export default function user(state = initialState, action) {
         ...state,
         channelName,
         channelOwner: false,
+      };
+    }
+    case userActionTypes.SET_REMOTE_SDP: {
+      const { sdpOffer } = action.payload;
+
+      return {
+        ...state,
+        remoteSDP: sdpOffer,
+      };
+    }
+    case userActionTypes.ADD_ICE_CANDIDATE: {
+      const { candidate } = action.payload;
+      const { ICECandidates } = state;
+
+      return {
+        ...state,
+        ICECandidates: [...ICECandidates, candidate],
       };
     }
     default: {
