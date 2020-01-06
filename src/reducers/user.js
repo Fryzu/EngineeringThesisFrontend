@@ -4,7 +4,7 @@ const initialState = {
   testData: null,
   userName: null,
   channelName: null,
-  channelOwner: false,
+  channelOwner: null,
   remoteSDP: null,
   ICECandidates: [],
 };
@@ -27,17 +27,19 @@ export default function user(state = initialState, action) {
     }
     case userActionTypes.OPEN_CHANNEL: {
       const { channelName } = action.payload;
+      const { userName } = state;
+
       return {
         ...state,
         channelName,
-        channelOwner: true,
+        channelOwner: userName,
       };
     }
     case userActionTypes.CLOSE_CHANNEL: {
       return {
         ...state,
         channelName: null,
-        channelOwner: false,
+        channelOwner: null,
       };
     }
     case userActionTypes.ADD_ME_TO_CHANNEL: {
@@ -46,7 +48,6 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         channelName,
-        channelOwner: false,
       };
     }
     case userActionTypes.SET_REMOTE_SDP: {
@@ -64,6 +65,14 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         ICECandidates: [...ICECandidates, candidate],
+      };
+    }
+    case userActionTypes.SET_CHANNEL_AUTHOR: {
+      const { author } = action.payload;
+
+      return {
+        ...state,
+        channelOwner: author,
       };
     }
     default: {

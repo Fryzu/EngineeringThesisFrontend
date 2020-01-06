@@ -39,17 +39,18 @@ class Channel extends Component {
 
   render() {
     const {
-      channelName,
       channelOwner,
       listeners,
       sendToUserAction,
       sendToChannelAction,
+      userName,
     } = this.props;
 
-    if (channelName) {
+    if (channelOwner) {
       return (
         <Accordion defaultActiveKey="0">
           <WebRTCController
+            userName={userName}
             channelOwner={channelOwner}
             listeners={listeners}
             sendToUser={sendToUserAction}

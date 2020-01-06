@@ -1,5 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { userActionTypes } from '../actions/user';
+import { userActionTypes, setChannelAuthor } from '../actions/user';
 import {
   setChannelList,
   setUserList,
@@ -53,7 +53,9 @@ function* closeChannelSaga(socket, action) {
 function* addMeToChannelSaga(socket, action) {
   const { type, payload } = action;
 
-  yield call(socketConnection, socket, type, payload);
+  const { author } = yield call(socketConnection, socket, type, payload);
+
+  yield put(setChannelAuthor(author));
 }
 
 function* sendToUserSaga(socket, action) {

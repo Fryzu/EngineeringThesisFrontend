@@ -17,16 +17,22 @@ export default class WebRTCController extends Component {
   constructor(props) {
     super(props);
 
-    const { channelOwner, listeners, sendToUser, sendToChannel } = this.props;
-
-    log(`Setting up WebRTC controller with ${listeners}`);
+    const {
+      userName,
+      channelOwner,
+      listeners,
+      sendToUser,
+      sendToChannel,
+    } = this.props;
 
     this.actions = { sendToUser, sendToChannel };
 
-    if (channelOwner) {
+    if (userName === channelOwner) {
+      log(`Setting up WebRTC controller as sender`);
       this.connectWithAllListeners(listeners);
     } else {
-      this.connectWithChannelAuthor();
+      log(`Setting up WebRTC controller as receiver`);
+      this.connectWithChannelAuthor(channelOwner);
     }
   }
 
@@ -39,8 +45,10 @@ export default class WebRTCController extends Component {
     });
   };
 
-  connectWithChannelAuthor = () => {
-    console.log('connect with author not implemented');
+  connectWithChannelAuthor = channelOwner => {
+    this.connections = [];
+    const connection = new Connection(channelOwner, this.actions.sendToUser);
+    this.connections.push(connection);
   };
 
   /** Gets the media stream from user device and connects it to video preview */
