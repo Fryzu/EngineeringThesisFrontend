@@ -16,10 +16,11 @@ const ice_servers = [
 ];
 
 export default class Connection {
-  constructor(listener, sendToUser) {
+  constructor(userName, listener, sendToUser) {
     log(`Setting peer connection for ${listener}`);
 
     this.listener = listener;
+    this.userName = userName;
     this.sendToUserAction = sendToUser;
 
     const peerConnection = new RTCPeerConnection({ ice_servers });
@@ -48,6 +49,7 @@ export default class Connection {
 
     sendToUserAction(listener, messageTypes.NEW_ICE_CANDIDATE, {
       candidate,
+      from: this.userName,
     });
   };
 

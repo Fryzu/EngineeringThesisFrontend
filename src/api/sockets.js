@@ -41,13 +41,11 @@ const createSocketConnection = ({ dispatch, getState }) => {
 
     switch (messageType) {
       case messageTypes.NEW_ICE_CANDIDATE: {
-        const { candidate } = message;
-        dispatch(addICECandidate(candidate));
+        dispatch(addICECandidate(message));
         break;
       }
       case messageTypes.SDP_OFFER: {
-        const { sdp } = message;
-        dispatch(setRemoteSDP(sdp));
+        dispatch(setRemoteSDP(message));
         break;
       }
       default:

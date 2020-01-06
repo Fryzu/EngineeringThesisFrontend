@@ -44,7 +44,12 @@ class Channel extends Component {
       sendToUserAction,
       sendToChannelAction,
       userName,
+      ICECandidates,
+      remoteSDP,
     } = this.props;
+
+    const isOwner = channelOwner === userName;
+    const { previewRef } = this.refs;
 
     if (channelOwner) {
       return (
@@ -56,10 +61,13 @@ class Channel extends Component {
             sendToUser={sendToUserAction}
             sendToChannel={sendToChannelAction}
             ref={this.webRTCController}
+            ICECandidates={ICECandidates}
+            remoteSDP={remoteSDP}
+            videoRef={previewRef}
           />
           <ChannelSettings
             listeners={listeners}
-            channelOwner={channelOwner}
+            isOwner={isOwner}
             onCloseChannel={this.onCloseChannel}
             onResetChannel={this.onResetChannel}
             onStartStreaming={this.startStreaming}
@@ -88,6 +96,8 @@ function mapStateToProps(state) {
     channelName: state.user.channelName,
     channelOwner: state.user.channelOwner,
     listeners: state.server.listeners,
+    ICECandidates: state.user.ICECandidates,
+    remoteSDP: state.user.remoteSDP,
   };
 }
 

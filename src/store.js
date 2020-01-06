@@ -7,10 +7,7 @@ import createSocketConnection from './api/sockets';
 
 const sagaMiddleware = createSagaMiddleware();
 
-export const store = createStore(
-  reducers,
-  applyMiddleware(sagaMiddleware, logger),
-);
+export const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 
 const socket = createSocketConnection(store);
 

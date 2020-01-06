@@ -7,12 +7,12 @@ export default class ChannelSettings extends Component {
     const {
       onCloseChannel,
       onResetChannel,
-      channelOwner,
+      isOwner,
       onStartStreaming,
       listeners,
     } = this.props;
 
-    const controls = channelOwner ? (
+    const controls = isOwner ? (
       <>
         <Button onClick={onStartStreaming} variant="primary">
           Start streaming {listeners.length}

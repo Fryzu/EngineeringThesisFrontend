@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Connection from './Connection';
+import Connection, { messageTypes } from './Connection';
 
 const mediaConstraints = {
   audio: true,
@@ -22,6 +22,7 @@ export default class WebRTCController extends Component {
       channelOwner,
       listeners,
       sendToUser,
+      videoRef,
       sendToChannel,
     } = this.props;
 
@@ -32,22 +33,111 @@ export default class WebRTCController extends Component {
       this.connectWithAllListeners(listeners);
     } else {
       log(`Setting up WebRTC controller as receiver`);
-      this.connectWithChannelAuthor(channelOwner);
+      this.connectWithChannelAuthor(channelOwner, videoRef);
+    }
+  }
+
+  async componentDidUpdate(prevProps) {
+    const {
+      ICECandidates,
+      remoteSDP,
+      listeners,
+      userName,
+      channelOwner,
+    } = this.props;
+
+    if (ICECandidates !== prevProps.ICECandidates) {
+      const newCandidate = ICECandidates.slice(-1)[0];
+
+      this.connections.forEach(connection => {
+        if (connection.listener === newCandidate.from) {
+          log(`Adding ICE candidate for ${newCandidate.from}`);
+          const { peerConnection } = connection;
+          newCandidate.candidate &&
+            peerConnection.addIceCandidate(newCandidate.candidate);
+        }
+      });
+    }
+
+    if (listeners !== prevProps.listeners) {
+      const newListeners = listeners.filter(listener => {
+        return !prevProps.listeners.includes(listener);
+      });
+      newListeners.forEach(listener => {
+        const connection = new Connection(
+          userName,
+          listener,
+          this.actions.sendToUser,
+        );
+        this.connections.push(connection);
+      });
+    }
+
+    if (remoteSDP && remoteSDP !== prevProps.remoteSDP) {
+      const isOwner = userName === channelOwner;
+
+      if (isOwner) {
+        await this.connections.forEach(async connection => {
+          if (connection.listener === remoteSDP.from) {
+            log('Setting remote SDP');
+
+            const { peerConnection } = connection;
+            await peerConnection.setRemoteDescription(remoteSDP.sdp);
+          }
+        });
+      } else {
+        log('Setting remote SDP and sending reponse', remoteSDP);
+
+        const { peerConnection } = this.connections[0];
+        await peerConnection.setRemoteDescription(remoteSDP.sdp);
+
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+
+        this.actions.sendToUser(channelOwner, messageTypes.SDP_OFFER, {
+          sdp: peerConnection.localDescription,
+          from: userName,
+        });
+      }
     }
   }
 
   /** Creates connections for all listeners */
   connectWithAllListeners = listeners => {
+    const userName = this.props;
+
     this.connections = [];
     listeners.forEach(listener => {
-      const connection = new Connection(listener, this.actions.sendToUser);
+      const connection = new Connection(
+        userName,
+        listener,
+        this.actions.sendToUser,
+      );
       this.connections.push(connection);
     });
   };
 
   connectWithChannelAuthor = channelOwner => {
+    const userName = this.props;
+
     this.connections = [];
-    const connection = new Connection(channelOwner, this.actions.sendToUser);
+    const connection = new Connection(
+      userName,
+      channelOwner,
+      this.actions.sendToUser,
+    );
+
+    connection.peerConnection.ontrack = event => {
+      const { videoRef } = this.props;
+
+      if (!videoRef.srcObject) {
+        log('Received new track');
+        const stream = event.streams[0];
+        // eslint-disable-next-line no-param-reassign
+        videoRef.srcObject = stream;
+      }
+    };
+
     this.connections.push(connection);
   };
 
